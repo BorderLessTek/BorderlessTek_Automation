@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     try {
-        const n8nweebhook = 'https://larryautomated.app.n8n.cloud/webhook-test/post-links'
+        const n8nweebhook = 'https://larryautomated.app.n8n.cloud/webhook/post-links'
         const { postLinks } = body;
 
         if (postLinks && postLinks.length > 0) {
