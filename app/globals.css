@@ -1,4 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Calligraffitti&display=swap');
 @import "tailwindcss";
+
+
+.calligraffitti-regular {
+  font-family: "Calligraffitti", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 
 :root {
   --background: #ffffff;

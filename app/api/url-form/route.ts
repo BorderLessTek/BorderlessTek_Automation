@@ -1,0 +1,31 @@
+
+
+import { NextResponse, NextRequest } from "next/server";
+
+
+export async function POST(req: NextRequest) {
+    const body = await req.json();
+
+    try {
+        const n8nweebhook = 'https://larryautomated.app.n8n.cloud/webhook-test/post-links'
+        const { postLinks } = body;
+
+        if (postLinks && postLinks.length > 0) {
+            await fetch(n8nweebhook, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ postLinks })
+            })
+
+            return NextResponse.json({ message: "Form submitted successfully!" }, { status: 200 })
+        }
+        return NextResponse.json({ message: "Please input at least one url" }, { status: 400, statusText: 'Bad Request!, Please follow instructions!' })
+    } catch (err) {
+        if (err instanceof Error) {
+            console.error(err.message)
+            return NextResponse.json({ message: err.message }, { status: 500, statusText: err.message })
+        }
+    }
+}
