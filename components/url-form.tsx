@@ -4,11 +4,13 @@ import React, { useState, SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
+import { Turnstile } from "@marsidev/react-turnstile";
 const UrlForm = () => {
 
     const [textValue, setTextValue] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
 
     const handleSubmit = async (e: SubmitEvent) => {
@@ -21,7 +23,7 @@ const UrlForm = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ postLinks }),
+                body: JSON.stringify({ postLinks, captchaToken }),
             });
             if (!response.ok) {
                 throw new Error("Failed to submit form");
@@ -35,6 +37,7 @@ const UrlForm = () => {
         } finally {
             setLoading(false);
             setTextValue("");
+            setCaptchaToken(null);
         }
     };
 
@@ -76,6 +79,14 @@ const UrlForm = () => {
                             </div>
 
 
+
+                            <div>
+                                <Turnstile
+                                    siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY as string}
+                                    onSuccess={(token) => setCaptchaToken(token)}
+                                    onError={() => setError("CAPTCHA verification failed")}
+                                />
+                            </div>
 
                             <div>
                                 <button
